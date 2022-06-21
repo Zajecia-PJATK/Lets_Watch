@@ -10,5 +10,5 @@ Wyciskanie jak najwięcej punktów w tydzień
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://zapodaj.net/33ff280571817.png.html)
 
