@@ -1,14 +1,10 @@
 
 # Baza Filmowa
-Wyciskanie jak najwięcej punktów w tydzień
+Connect with database, admin login system, movies_generator, rating films
 
 
 ## Authors
 
 - [@P4steo](https://github.com/P4steo)
 
-
-## Screenshots
-
-![App Screenshot](https://zapodaj.net/33ff280571817.png.html)
 
