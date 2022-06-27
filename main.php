@@ -1,5 +1,6 @@
 <?php
 session_start(); //CTRL+ALT+L formatowanie kodu
+include 'antyhack.php';
 ?>
 
 
@@ -9,19 +10,24 @@ session_start(); //CTRL+ALT+L formatowanie kodu
     <meta name="author" content="Paweł Beiger">
     <meta name="keywords" content="filmy, movies, seriale, aktorzy, video">
     <title>Let's Watch</title>
+    <link rel="shortcut icon" href="/site/images/logo.png" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
 
-    <style>
-        .p1 {
-            font-family: "Ink Free", "Courier New", monospace;
-        }
-
-        .bg-custom-1 {
-            background-image: linear-gradient(to bottom, #dc3530 0%, #000000 100%);
-        }
-    </style>
 </head>
-<body style="background-color: #000000;" ondragstart="return false" ondrag="return false">
+<script>
+    document.onkeydown = function (e) {
+        if (e.ctrlKey &&
+            (e.keyCode === 85)) {
+            return false;
+        }
+    };
+</script>
+
+<body style="background-color: #000000;" ondragstart="return false" ondrag="return false"
+    >
+
 <!-- oncontextmenu="return false" blokada prawego przycisku myszki -->
 
 <header>
@@ -30,30 +36,36 @@ session_start(); //CTRL+ALT+L formatowanie kodu
 
         <div class="container-fluid">
             <div class="text-center" id="LOGOtext">
-                <a class="navbar-brand text-white p1"><h2>LET'S WATCH!</h2></a>
+                <a class="navbar-brand text-white p1 insetshadow"><h2>LET'S WATCH!</h2></a>
             </div>
             <div class="col-sm-5">
-                <form class="d-flex justify-content-start">
-                    <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-danger" type="submit"><img src="/site/images/image2.svg" width="30"
+                <form class="d-flex justify-content-start" method="post" action="main.php">
+                    <input name="search" id="searching" class="form-control me-2 " type="search" placeholder="Search"
+                           aria-label="Search">
+                    <button class="btn btn-danger" type="submit"><img src="/site/images/image2.svg" alt="logo"
+                                                                      width="30"
                                                                       height="30"></button>
                 </form>
             </div>
             <div class="col-sm-2">
-                <select class="form-select" aria-label=".form-select-sm example" id="sortuj" name="sortuj">
-                    <option selected>Sort by film genre</option>
-                    <option value="1">Action</option>
-                    <option value="2">Animation</option>
-                    <option value="3">Comedy</option>
-                    <option value="4">Drama</option>
-                    <option value="5">Family</option>
-                    <option value="6">Mystery</option>
-                    <option value="7">Romance</option>
-                    <option value="8">Sci-Fi</option>
-                    <option value="9">Trailer</option>
+                <form action="main.php" method="post">
+                    <select class="form-select" aria-label=".form-select-sm example" id="sortuj" name="sortuj">
+                        <option selected value="0">Sort by film genre</option>
+                        <option value="1">Action</option>
+                        <option value="2">Animation</option>
+                        <option value="3">Comedy</option>
+                        <option value="4">Drama</option>
+                        <option value="5">Family</option>
+                        <option value="6">Mystery</option>
+                        <option value="7">Romance</option>
+                        <option value="8">Sci-Fi</option>
+                        <option value="9">Trailer</option>
 
-                </select>
+                    </select>
+                    <button type="submit">Genre</button>
+                </form>
             </div>
+
 
             <button class="navbar-toggler" data-toggle="collapse" data-target="#demo" aria-label="Toggle navigation"
                     aria-expanded="false">
@@ -63,14 +75,25 @@ session_start(); //CTRL+ALT+L formatowanie kodu
                 <div class="container-fluid">
                     <ul class="nav flex-column" style="list-style: none">
                         <li class="nav-item">
-                            <form class="mr-1 mt-1" method="POST" action="signup.php">
-                                <button class="navbar-toggler" type="submit" data-bs-toggle="collapse"
+                            <form class="mr-1 mt-1" method="POST" action="signin.php">
+                                <?php
+                                if (isset($_SESSION['logged_id'])) {
+                                    echo '<form action="admin.php"><button class="navbar-toggler" type="submit" data-bs-toggle="collapse"
                                         data-bs-target="#collapseExample" aria-expanded="false"
                                         aria-controls="collapseExample">
-                                    Sign Up
+                                    Admin
+                                </button></form>';
+                                } else {
+                                    echo '
+                                <button class="navbar-toggler" type="submit" data-bs-toggle="collapse"
+                                data-bs-target="#collapseExample" aria-expanded="false"
+                                aria-controls="collapseExample">
+                                Sign In
                                 </button>
-                            </form>
-                        </li class="nav-item">
+                            </form>';
+                                }
+                                ?>
+                        </li>
                         <li>
                             <form class="mr-1 mt-1" method="POST" action="aboutus.php">
                                 <button class="navbar-toggler" type="submit" data-bs-toggle="collapse"
@@ -87,30 +110,9 @@ session_start(); //CTRL+ALT+L formatowanie kodu
     </nav>
 </header>
 
-
-<div class="jumper text-white col-md-2 justify-content-evenly">
-    <div class="col-auto">
-        <img class="card-img-top" src="/site/images/image1.jpg" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Inception (2010)</h5>
-            <button class="navbar-toggler text-white" data-toggle="collapse" data-target="#more"
-                    aria-label="Toggle navigation"
-                    aria-expanded="false" onclick="myFunction()">
-                <i id="myDIV">More</i>
-            </button>
-            <div id="more" class="collapse">
-                <div class="container-fluid">
-                    <p class="card-text">
-                        Direction: Christopher Nolan
-                        Genre: Thriller / Sci-Fi
-                        Production: USA / Wielka Brytania
-                    </p>
-                    <a href="https://www.themoviedb.org/movie/27205-inception?language=en"
-                       class="btn btn-danger">LINK</a>
-                </div>
-            </div>
-        </div>
-
+<div class="container">
+    <div class="klasa">
+        <?php include 'movies_generator.php' ?>
     </div>
 </div>
 
