@@ -1,6 +1,6 @@
 
 # Baza Filmowa
-Connect with database, admin login system, movies_generator, rating films
+Connect with database, admin login system, movies_generator, searching, sorting
 
 
 ## Authors
